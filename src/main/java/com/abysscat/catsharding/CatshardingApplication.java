@@ -2,6 +2,7 @@ package com.abysscat.catsharding;
 
 import com.abysscat.catsharding.demo.mapper.UserMapper;
 import com.abysscat.catsharding.demo.model.User;
+import com.abysscat.catsharding.mybatis.ShardingMapperFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@MapperScan(value = "com.abysscat.catsharding.demo.mapper")
+@MapperScan(value = "com.abysscat.catsharding.demo.mapper", factoryBean = ShardingMapperFactoryBean.class)
 public class CatshardingApplication {
 
 	public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class CatshardingApplication {
 			System.out.println("===== Run catsharding test for mybatis CRUD =====");
 			System.out.println("=================================================");
 
-			for (int id = 1; id <= 1; id++) {
+			for (int id = 1; id <= 10; id++) {
 				test(id);
 			}
 
