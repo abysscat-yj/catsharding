@@ -53,12 +53,13 @@ public class StandardShardingEngine implements ShardingEngine {
 
 		String table = null;
 		Map<String, Object> shardingColumsMap = null;
+
 		if(sqlStatement instanceof SQLInsertStatement sqlInsertStatement) {
+			// insert
 			table = sqlInsertStatement.getTableName().getSimpleName();
 			shardingColumsMap = getShardingColumsMap(sqlInsertStatement, args);
 		} else {
-			// todo select/update/delete
-
+			// select/update/delete
 			MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
 			visitor.setParameters(List.of(args));
 			sqlStatement.accept(visitor);
@@ -83,7 +84,10 @@ public class StandardShardingEngine implements ShardingEngine {
 		System.out.println(" ===>>> target db.table = " + targetDatabase + "." + targetTable);
 		System.out.println(" ===>>> ");
 
-		return new ShardingResult(targetDatabase, sql.replace(table, targetTable), args);
+		// todo 此处直接替换不严谨
+		String realSql = sql.replace(table, targetTable);
+
+		return new ShardingResult(targetDatabase, realSql, args);
 	}
 
 

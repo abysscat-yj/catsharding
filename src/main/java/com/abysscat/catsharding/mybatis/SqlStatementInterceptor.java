@@ -52,6 +52,7 @@ public class SqlStatementInterceptor implements Interceptor {
 	private static void replaceSql(BoundSql boundSql, String targetSqlStatement) throws NoSuchFieldException {
 		Field field = boundSql.getClass().getDeclaredField("sql");
 		Unsafe unsafe = UnsafeUtils.getUnsafe();
+		// 通过指针来修改final的sql字段
 		long fieldOffset = unsafe.objectFieldOffset(field);
 		unsafe.putObject(boundSql, fieldOffset, targetSqlStatement);
 	}
